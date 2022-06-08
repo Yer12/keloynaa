@@ -45,14 +45,15 @@
         </ul>
 
         <div class="add_img">
-          <label class="custom-file-upload inputs">
-            <input type="file"/>
-            Прикрепить фото
-            <img src="../assets/file.svg" alt="">
-          </label>
-        </div>
+<!--          <label class="custom-file-upload inputs">-->
+<!--            <input type="file"/>-->
+<!--            Прикрепить фото-->
+<!--            <img src="../assets/file.svg" alt="">-->
+<!--          </label>-->
+          <UploadImages @change="handleImages"/>
 
-        <button @click="createPlayground" class="send_btn">
+        </div>
+        <button @click="handleImages" class="send_btn">
           Отправить
         </button>
       </div>
@@ -62,20 +63,21 @@
 
 <script>
 import Header from "@/components/organisms/Header";
+import UploadImages from "vue-upload-drop-images"
+
 export default {
   name: "AddPlayground",
-  components: {Header},
+  components: {
+    Header,
+    UploadImages,
+  },
   data() {
     return {
       playground: {
         closeTime: "22",
         companyId: 2,
         description: "Playground",
-        images: [
-          "https://firebasestorage.googleapis.com/v0/b/playground-2e00d.appspot.com/o/1.jpg?alt=media&token=4f11ab1a-4732-4226-9a5c-2c0d3be5d9a8",
-          "https://firebasestorage.googleapis.com/v0/b/playground-2e00d.appspot.com/o/1.jpg?alt=media&token=4f11ab1a-4732-4226-9a5c-2c0d3be5d9a8",
-          "https://firebasestorage.googleapis.com/v0/b/playground-2e00d.appspot.com/o/1.jpg?alt=media&token=4f11ab1a-4732-4226-9a5c-2c0d3be5d9a8"
-        ],
+        images: [],
         phone: "87075233816",
         playgroundAddress: "",
         playgroundName: "",
@@ -98,9 +100,29 @@ export default {
   },
   methods: {
     createPlayground() {
-      this.$store.dispatch("createPlayground", this.playground)
+      const fd = new FormData();
+      fd.append('image', this.playground.images, '');
+      console.log(fd);
+      // this.$store.dispatch("createPlayground", this.playground)
       console.log(this.playground)
-    }
+    },
+    handleImages(event){
+      this.playground.images = event.target;
+      console.log(this.playground.images)
+      /*
+        [
+          {
+              "name": "Screenshot from 2021-02-23 12-36-33.png",
+              "size": 319775,
+              "type": "image/png",
+              "lastModified": 1614080193596
+              ...
+          },
+          ...
+          ]
+       */
+    },
+
   },
 
 }
@@ -238,24 +260,21 @@ input[type="file"] {
 }
 
 .send_btn {
-  background: #C4C4C4;
+  background: #00AADE;
   border-radius: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   padding: 15px 63px;
-  margin: 0 auto;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 149.7%;
-  /* or 36px */
-
   letter-spacing: 0.025em;
   text-transform: capitalize;
-
+  margin: 100px auto 0;
   color: #FAFAFA;
 }
 

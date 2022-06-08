@@ -1,15 +1,39 @@
 <template>
   <div class="search_div">
-    <input type="text" placeholder="Алматы арена" class="search_input">
-    <button class="search_filter">
-      <img src="../../assets/file.svg" alt="">
+    <input type="text" v-model="filter.name" placeholder="Алматы арена" class="search_input">
+    <button @click="onFilter" class="search_filter">
+      <img src="../../assets/search.svg" alt="">
     </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CategorySearch"
+  name: "CategorySearch",
+  data() {
+    return {
+      filter: {
+        roofType: "",
+        fromPrice: 0,
+        name: "",
+        toPrice: 0,
+        sportId: 0,
+      }
+    }
+  },
+  methods: {
+    onFilter() {
+      this.$store.state.filteredPlaygrounds = this.filteredPlaygrounds
+      this.$store.dispatch("getFilterPlaygrounds", this.filter)
+    }
+  },
+  computed: {
+    filteredPlaygrounds() {
+      console.log(this.$store.state.filteredPlaygrounds)
+
+      return this.$store.state.filteredPlaygrounds
+    }
+  }
 }
 </script>
 

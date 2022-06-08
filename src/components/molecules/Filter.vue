@@ -58,6 +58,7 @@ export default {
       filter: {
         roofType: "",
         fromPrice: 0,
+        name: "",
         toPrice: 0,
         sportId: 0,
       }
